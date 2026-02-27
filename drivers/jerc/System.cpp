@@ -34,7 +34,7 @@ SOFTWARE.
  * No AI was used in the creation of this code.
  */
 
-#include <System.hpp>
+#include <System.h>
 #include <ti/driverlib/driverlib.h>
 
 unsigned long millis(){

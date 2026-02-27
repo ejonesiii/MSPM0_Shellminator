@@ -1,8 +1,8 @@
 /**
  * These arguments were used when this file was generated. They will be automatically applied on subsequent loads
  * via the GUI or CLI. Run CLI with '--help' for additional information on how to override these arguments.
- * @cliArgs --device "MSPM0C110X" --part "Default" --package "VSSOP-20(DGS20)" --product "mspm0_sdk@2.09.00.02"
- * @v2CliArgs --device "MSPM0C1104" --package "VSSOP-20(DGS20)" --product "mspm0_sdk@2.09.00.02"
+ * @cliArgs --device "MSPM0G351X" --part "Default" --package "LQFP-100(PZ)" --product "mspm0_sdk@2.09.00.02"
+ * @v2CliArgs --device "MSPM0G3519" --package "LQFP-100(PZ)" --product "mspm0_sdk@2.09.00.02"
  * @versions {"tool":"1.25.0+4268"}
  */
 
@@ -10,6 +10,8 @@
  * Import the modules used in this configuration.
  */
 const Board         = scripting.addModule("/ti/driverlib/Board");
+const DMA           = scripting.addModule("/ti/driverlib/DMA");
+const SYSCTL        = scripting.addModule("/ti/driverlib/SYSCTL");
 const UART          = scripting.addModule("/ti/driverlib/UART", {}, false);
 const UART1         = UART.addInstance();
 const ProjectConfig = scripting.addModule("/ti/project_config/ProjectConfig");
@@ -17,12 +19,15 @@ const ProjectConfig = scripting.addModule("/ti/project_config/ProjectConfig");
 /**
  * Write custom configuration values to the imported modules.
  */
+Board.peripheral.$assign          = "DEBUGSS";
+Board.peripheral.swclkPin.$assign = "PA20";
+Board.peripheral.swdioPin.$assign = "PA19";
 
-UART1.analogGlitchFilter               = "DL_UART_PULSE_WIDTH_5_NS";
-UART1.enabledInterrupts                = ["RX","TX"];
-UART1.$name                            = "UART_shell";
-UART1.peripheral.rxPin.$assign         = "PA26";
-UART1.peripheral.txPin.$assign         = "PA27";
+SYSCTL.forceDefaultClkConfig = true;
+SYSCTL.clockTreeEn           = true;
+
+UART1.$name                            = "UART_SHELL";
+UART1.targetBaudRate                   = 128000;
 UART1.txPinConfig.$name                = "ti_driverlib_gpio_GPIOPinGeneric0";
 UART1.txPinConfig.direction            = scripting.forceWrite("OUTPUT");
 UART1.txPinConfig.hideOutputInversion  = scripting.forceWrite(false);
@@ -33,15 +38,13 @@ UART1.rxPinConfig.hideOutputInversion  = scripting.forceWrite(false);
 UART1.rxPinConfig.onlyInternalResistor = scripting.forceWrite(false);
 UART1.rxPinConfig.passedPeripheralType = scripting.forceWrite("Digital");
 
-const SYSCTL = scripting.addModule("/ti/driverlib/SYSCTL", {}, false);
+ProjectConfig.migrationCondition = true;
 
 /**
  * Pinmux solution for unlocked pins/peripherals. This ensures that minor changes to the automatic solver in a future
  * version of the tool will not impact the pinmux you originally saw.  These lines can be completely deleted in order to
  * re-solve from scratch.
  */
-Board.peripheral.$suggestSolution          = "DEBUGSS";
-Board.peripheral.swclkPin.$suggestSolution = "PA20";
-Board.peripheral.swdioPin.$suggestSolution = "PA19";
-UART1.peripheral.$suggestSolution          = "UART0";
-SYSCTL.peripheral.$suggestSolution         = "SYSCTL";
+UART1.peripheral.$suggestSolution       = "UART0";
+UART1.peripheral.rxPin.$suggestSolution = "PA1";
+UART1.peripheral.txPin.$suggestSolution = "PA0";

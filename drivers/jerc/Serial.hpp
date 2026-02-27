@@ -39,8 +39,8 @@ SOFTWARE.
 
 #include <stdint.h>
 #include <string.h>
-#include "Stream.hpp"
-#include "System.hpp"
+#include <Stream.h>
+#include <System.h>
 
 #define RX_BUF_LEN 128
 
