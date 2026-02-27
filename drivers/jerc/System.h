@@ -41,14 +41,19 @@ SOFTWARE.
 #include <stdio.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include <ti/devices/DeviceFamily.h>
+#include <ti/drivers/UART.h>
 
 unsigned long millis(void);
 void delay(uint32_t x);
 
-#if defined(DeviceFamily_MSPM0C110X)
 
-#elif defined(DeviceFamily_MSPM0G351X)
+#if (DeviceFamily_ID == DeviceFamily_ID_MSPM0C110X)
+#error This device is not supported due to DMA limitations
+#elif (DeviceFamily_ID == DeviceFamily_ID_MSPM0G351X)
 
+#else
+#warning This device has not yet been implemented
 #endif
 
 

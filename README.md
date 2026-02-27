@@ -5,14 +5,17 @@ Drivers for the MSPM0 necessary to implement the [Shellminator](https://www.shel
 ## Peripherals & Pin Assignments
 Shellminator uses the USB-to-UART bridge interface of the TI LP-MSPM0 development boards. Below are the UART configurations on boards I've tested
 
-#### LP-MSPM0C1104
-| Peripheral | Pin | Function |
-| --- | --- | --- |
-| RXD | PA26 | MSPM0 UART receive port |
-| TXD | PA27 | MSPM0 UART transmit port |
+#### Boards that do work
+| MCU | UART TX Pin | UART RX PIN | Notes |
+| --- | --- | --- | --------- |
+| MSPM0G3519 | PA10 | PA11 | N/A |
 
-#### LP-MSPM0G3519
-TODO
+#### Boards that don't work
+| MCU | Notes |
+| --- | ---------|
+| MSPM0C1103 | Has only one DMA channel (need two)|
+| MSPM0C1104 | Has only one DMA channel (need two)|
+
 
 ## Installation
 TODO: Show how to install (TODO: Make it work first, dummy)
