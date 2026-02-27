@@ -30,8 +30,17 @@
  * EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/*
+ * Example of Shellminator use in the MSPM0.
+ *
+ * The project environment was created by pulling the empty project with
+ * driverlib source files included.
+ */
+
 #include <ti/driverlib/m0p/dl_interrupt.h>
 #include "ti_msp_dl_config.h"
+#include "Shellminator.hpp"
+#include "Serial.hpp"
 
 int main(void)
 {

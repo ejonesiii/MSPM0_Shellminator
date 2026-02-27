@@ -23,7 +23,7 @@
 #define Stream_h
 
 #include <inttypes.h>
-#include "Print.h"
+#include <Print.hpp>
 
 // compatibility macros for testing
 /*

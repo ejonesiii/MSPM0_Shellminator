@@ -48,7 +48,7 @@ ti/
 .ccsproject
 .cproject
 .project
-*.syscfg
+#*.syscfg # I'm including the sysconfig file as an example for the MSPM0C1104
 
 # Submodule Files (Just in case)
 Shellminator/

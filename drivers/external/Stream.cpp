@@ -22,8 +22,8 @@
  findMulti/findUntil routines written by Jim Leonard/Xuth
  */
 
-#include "Stream.h"
-#include "System.h"
+#include <Stream.hpp>
+#include <System.hpp>
 
 #define PARSE_TIMEOUT 1000  // default number of milli-seconds to wait
 

@@ -27,20 +27,42 @@ SOFTWARE.
  * Initial Commit: 2/25/2026
  * Last Commit: 2/26/2026
  *
- * Replacement for the Arduino System library for use on the MSPM0, necessary to run the Shellminator project
+ * Replacement for the Arduino Serial library for use on the MSPM0, necessary to run the Shellminator project
  * Library assumes the use of the MSPM0 driverlib
  *
  * Written using Code Composer Studio v12.
  * No AI was used in the creation of this code.
  */
 
-#include <System.hpp>
-#include <ti/driverlib/driverlib.h>
+#ifndef SERIAL_HPP_
+#define SERIAL_HPP_
 
-unsigned long millis(){
-    return DL_SYSTICK_getValue();
-}
+#include <stdint.h>
+#include <string.h>
+#include "Stream.hpp"
+#include "System.hpp"
 
-void delay(uint32_t x){
-    delay_cycles(x);
-}
+#define RX_BUF_LEN 128
+
+class Serial : public Stream{
+public:
+    Serial(); //TODO: Implement UART device arg
+    bool begin(uint32_t baud);
+    int available() override;
+    int read() override;
+    int peek() override;
+    void flush() override;
+    size_t write(uint8_t buff) override;
+    size_t write(const uint8_t *buff, size_t size) override;
+    size_t write(const char *str) override;
+private:
+    //TODO: UART_HandleTypeDef
+    uint32_t baudrate = 0;
+    uint8_t receive_buffer[RX_BUF_LEN];
+    uint32_t receive_buffer_counter = 0;
+    //TODO: static const char* dmaErrorMessage;
+};
+
+
+
+#endif /* SERIAL_HPP_ */

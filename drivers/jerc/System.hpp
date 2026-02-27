@@ -34,13 +34,24 @@ SOFTWARE.
  * No AI was used in the creation of this code.
  */
 
-#include <System.hpp>
-#include <ti/driverlib/driverlib.h>
+#ifndef System_h
+#define System_h
 
-unsigned long millis(){
-    return DL_SYSTICK_getValue();
-}
+#include <time.h>
+#include <stdio.h>
+#include <stdint.h>
+#include <stdlib.h>
 
-void delay(uint32_t x){
-    delay_cycles(x);
-}
+unsigned long millis(void);
+void delay(uint32_t x);
+
+#if defined(DeviceFamily_MSPM0C110X)
+
+#elif defined(DeviceFamily_MSPM0G351X)
+
+#endif
+
+
+#endif
+
+
