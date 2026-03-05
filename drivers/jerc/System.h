@@ -43,17 +43,23 @@ SOFTWARE.
 #include <stdlib.h>
 #include <ti/devices/DeviceFamily.h>
 #include <ti/drivers/UART.h>
+#include <ti/driverlib/driverlib.h>
 
 unsigned long millis(void);
 void delay(uint32_t x);
 
 
 #if (DeviceFamily_ID == DeviceFamily_ID_MSPM0C110X)
-#error This device is not supported due to DMA limitations
-#elif (DeviceFamily_ID == DeviceFamily_ID_MSPM0G351X)
-
+    #error This device is not supported due to DMA limitations
+#elif (DeviceFamily_ID == DeviceFamily_ID_MSPM0G351X)       // Defaults to LP-MSPM0G3519 console interface pins (UART0 on PA10 and PA11)
+    #define DEFAULT_UART        UART0
+    #define DEFAULT_IRQ         UART0_INT_IRQn
+    #define DEFAULT_TXD         IOMUX_PINCM21               // PA10
+    #define DEFAULT_RXD         IOMUX_PINCM22               // PA11
+    #define DEFAULT_TXD_FUNC    IOMUX_PINCM21_PF_UART0_TX
+    #define DEFAULT_RXD_FUNC    IOMUX_PINCM22_PF_UART0_RX
 #else
-#warning This device has not yet been implemented
+    #warning This device has not yet been implemented
 #endif
 
 

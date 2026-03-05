@@ -38,6 +38,8 @@
  */
 
 #include <ti/driverlib/m0p/dl_interrupt.h>
+//#include <ti/drivers/UART.h>
+#include <ti/drivers/uart/UARTMSPM0.h>
 #include "ti_msp_dl_config.h"
 #include "Shellminator.hpp"
 #include "Serial.hpp"
@@ -45,6 +47,21 @@
 int main(void)
 {
     SYSCFG_DL_init();
+
+    // Example of initializing the UART interface without the graphical editor
+    UART_Params params;                                     // Struct that contains UART settings
+    UART_Params_init(&params);                              // Populates struct with default settings
+    params.readMode = UART_Mode_CALLBACK;                   // Callback will begin the TRX process in the background and will interrupt when needed (Necessary for DMA)
+    params.writeMode = UART_Mode_CALLBACK;                  // See above
+    params.eventMask = 0;                                   // Typically want to leave as 0, unless you know what you're doing
+    params.readReturnMode = UART_ReadReturnMode_PARTIAL;    // Will return bytes when a read operation finishes, even if the amount is less than expected (Necessary for DMA)
+    params.baudRate = 128000;                               // Data rate of the UART interface
+    params.dataLength = UART_DataLen_8;                     // 8 bits of information per message
+    params.stopBits = UART_StopBits_1;                      // 1 stop bit
+    params.parityType = UART_Parity_NONE;                   // No parity
+
+    UART_Handle handle;
+    handle = UART_open(0,&params);
 
     while (1) {
     }

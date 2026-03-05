@@ -35,13 +35,63 @@ SOFTWARE.
  */
 
 #include "Serial.hpp"
+#include "System.h"
 #include <stdint.h>
+#include <ti/drivers/uart/UARTMSPM0.h>
+#include <ti/drivers/UART.h>
 
-Serial::Serial(){
+// Default settings
+static UARTMSP_HWAttrs defaultSettings = {
+   .regs          = DEFAULT_UART,
+   .irq           = DEFAULT_IRQ,
+   .rxPin         = DEFAULT_RXD,
+   .rxPinFunction = DEFAULT_RXD_FUNC,
+   .txPin         = DEFAULT_TXD,
+   .txPinFunction = DEFAULT_TXD_FUNC,
+   .mode          = DL_UART_MODE_NORMAL,
+   .direction     = DL_UART_DIRECTION_TX_RX,
+   .flowControl   = DL_UART_FLOW_CONTROL_NONE,
+   .clockSource   = DL_UART_CLOCK_BUSCLK,
+   .clockDivider  = DL_UART_CLOCK_DIVIDE_RATIO_1,
+   .rxIntFifoThr  = DL_UART_RX_FIFO_LEVEL_ONE_ENTRY,
+   .txIntFifoThr  = DL_UART_TX_FIFO_LEVEL_EMPTY,
+};
 
+
+// Placeholders because I don't know how to get rid of them in an elegant way
+uint8_t rxBuf[1];
+uint8_t txBuf[1];
+
+UART_Data_Object UARTObject = {
+    .object =
+        {
+            .supportFxns        = &UARTMSPSupportFxns,
+            .buffersSupported   = true,
+            .eventsSupported    = false,
+            .callbacksSupported = false,
+            .dmaSupported       = true,
+        },
+    .buffersObject = // Placeholder default values
+        {
+            .rxBufPtr  = rxBuf,
+            .txBufPtr  = txBuf,
+            .rxBufSize = sizeof(rxBuf),
+            .txBufSize = sizeof(txBuf),
+        },
+};
+
+
+// Serial class functions
+Serial::Serial(UART_Handle *handle){
+    uart_device = handle;
 }
 
 bool Serial::begin(uint32_t baud){
+    if(uart_device == NULL){        // Check to see if Serial class has been initialized
+        return false;
+    }
+
+
 
     return true;
 }

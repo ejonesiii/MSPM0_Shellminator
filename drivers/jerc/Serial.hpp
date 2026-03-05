@@ -37,16 +37,23 @@ SOFTWARE.
 #ifndef SERIAL_HPP_
 #define SERIAL_HPP_
 
+// Class function includes
 #include <stdint.h>
 #include <string.h>
 #include <Stream.h>
 #include <System.h>
+// TI UART drivers includes
+#include <ti/devices/msp/msp.h>
+#include <ti/driverlib/dl_gpio.h>
+#include <ti/drivers/UART.h>
+#include <ti/drivers/uart/UARTMSPM0.h>
 
-#define RX_BUF_LEN 128
+// Constants defines
+#define BUF_LEN 128
 
 class Serial : public Stream{
 public:
-    Serial(); //TODO: Implement UART device arg
+    Serial(UART_Handle *handle);
     bool begin(uint32_t baud);
     int available() override;
     int read() override;
@@ -56,9 +63,9 @@ public:
     size_t write(const uint8_t *buff, size_t size) override;
     size_t write(const char *str) override;
 private:
-    //TODO: UART_HandleTypeDef
+    UART_Handle *uart_device = NULL;
     uint32_t baudrate = 0;
-    uint8_t receive_buffer[RX_BUF_LEN];
+    uint8_t receive_buffer[BUF_LEN];
     uint32_t receive_buffer_counter = 0;
     //TODO: static const char* dmaErrorMessage;
 };
